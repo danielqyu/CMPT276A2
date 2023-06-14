@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.com">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <title>Student Database</title>
+</head>
+<body>
+    <!--TITLE-->
+    <div class="col-md-12 m-sm-4" style=" width: 1320px; padding: 25px; background-color: #D3D3D3; border-radius: 10px;">
+    <h2 class="row justify-content-center">Student Database</h2>
+    </div>
+
+    <div class="row" style="margin-left: 1px;">
+        <!--DISPLAY EXISTING STUDENTS-->
+        <div class="col-md-6 m-sm-4 overflow-auto" style="padding: 25px; background-color: #D3D3D3; border-radius: 10px;">
+            <h2 class="row justify-content-center">Current Students</h2>
+            <!--LABELS-->
+            <div class="row">
+                <div class="col-3 d-flex justify-content-center">
+                    <h4>Box</h4>
+                </div>
+                <div class="col-3 d-flex justify-content-center">
+                    <h4>Name</h4>
+                </div>
+                <div class="col-1 d-flex justify-content-center">
+                    <h4>GPA</h4>
+                </div>
+                <div class="col-2 d-flex justify-content-center">
+                    <h4>Favourite Food</h4>
+                </div>
+
+            </div>
+            <div class="row align-items-center m-sm-2 p-2" th:each="student : ${students}" style="background-color: #FFFFFF; border-radius: 5px;"> 
+                <div class="col-3 d-flex justify-content-center">
+                    <div th:style="'width: ' + ${student.weight} + 'px; height: ' + ${student.height} + 'px; background-color: #FFFFFF; border: 1px solid; border-color: ' + ${student.hair} + ''"></div>
+                </div>
+                <div class="col-3">
+                    <span th:text="${student.name}"></span> 
+                </div>
+                <div class="col-1 d-flex justify-content-center">
+                    <span th:text="${student.gpa}"></span> 
+                </div>
+                <div class="col-2">
+                    <span th:text="${student.favFood}"></span> 
+                </div>
+                <div class="col-1">
+                    <form action="/students/edit" method="post">
+                        <input type="hidden" th:value="${student.uid}" name="studentId">
+                        <button class="btn btn-primary" id="delete" type="submit">Edit</button>
+                    </form>
+                </div>
+                <div class="col-1">
+                    <form action="/students/delete" method="post">
+                        <input type="hidden" th:value="${student.uid}" name="studentId">
+                        <button class="btn btn-danger" id="delete" type="submit">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!--ADD NEW STUDENT-->
+        <div class="col-md-4 m-sm-4" id="formInputsCont" style="width: 300px; padding: 25px;background-color: #D3D3D3; border-radius: 10px;" >
+        <form action="/students/view" method="post" class="errorCheck" novalidate>
+                <h2 class="row justify-content-center">Add Students</h2>
+                <div class="container">
+                    <label for="nameTextBox">Name</label>
+                    <input class="form-control" type="text" id="nameTextBox" name="nameTextBox" required placeholder="Name">
+                    <div class="invalid-feedback">Please enter a name</div>    
+                </div>
+                <div class="container">
+                    <label for="heightTextBox">Height (cm)</label>
+                    <input class="form-control" type="number" id="heightTextBox" name="heightTextBox" min="0" required placeholder="Height">
+                    <div class="invalid-feedback">Please enter a height</div>    
+                </div>
+                <div class="container">
+                    <label for="weightTextBox">Weight (kg)</label>
+                    <input class="form-control" type="number" id="weightTextBox" name="weightTextBox" min="0" required placeholder="Weight">
+                    <div class="invalid-feedback">Please enter a weight</div>    
+                </div>
+                <div class="container">
+                    <label for="hairTextBox">Hair Colour</label>
+                    <input class="form-control" type="text" id="hairTextBox" name="hairTextBox" required placeholder="Hair Colour">
+                    <div class="invalid-feedback">Please enter a hair colour</div>    
+                </div>
+                <div class="container">
+                    <label for="gpaTextBox">GPA</label>
+                    <input class="form-control" type="number" id="gpaTextBox" name="gpaTextBox" min="0" max="4.33" step="0.01" required placeholder="0 - 4.33">
+                    <div class="invalid-feedback">GPA must be within 0 - 4.33</div>    
+                </div>
+                <div class="container">
+                    <label for="foodTextBox">Favourite Food</label>
+                    <input class="form-control" type="text" id="foodTextBox" name="foodTextBox" required placeholder="Favourite Food">
+                    <div class="invalid-feedback"> Please enter a food </div>
+                </div>
+                <div class="container-fluid" style="margin-top: 15px;">
+                    <div class="row justify-content-center">
+                        <div class="col-6 d-flex justify-content-end">
+                            <button class="btn btn-secondary" id="clear" type="reset">Clear</button>
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-primary" id="add" type="submit">Add</button>
+                        </div>
+                    </div>
+                </div>
+        </form>
+    </div>
+    <script>
+        (() => {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const forms = document.querySelectorAll('.errorCheck')
+
+    // Loop over them and prevent submission
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+        }, false)
+    })
+    })()
+    </script>
+</body>
+</html>
