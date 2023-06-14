@@ -5,4 +5,4 @@ RUN mvn clean package -DskipTests
 FROM openjdk:17.0.1-jdk-slim
 COPY --from=build /target/a2v2-0.0.1-SNAPSHOT.jar a2v2.jar
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","a1.jar"]
+ENTRYPOINT ["java","-jar","a2v2.jar"]
