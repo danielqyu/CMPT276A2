@@ -42,6 +42,7 @@ public class studentController {
         studentRepo.save(new Student(newName, newHeight, newWeight, newHairColor, newGpa, newFavFood));
         response.setStatus(201);
 
+        // return updated list of students to model
         List<Student> students = studentRepo.findAll();
         model.addAttribute("students", students);
 
@@ -51,10 +52,9 @@ public class studentController {
     // delete student
     @PostMapping("students/delete")
     public String deleteStudent(@RequestParam Map<String, String> id, HttpServletResponse response, Model model) {
-        System.out.println("delete user: " + id.get("studentId"));
-
         studentRepo.deleteById(Integer.parseInt(id.get("studentId")));
 
+        // return updated list of students to model
         List<Student> students = studentRepo.findAll();
         model.addAttribute("students", students);
         return "redirect:/students/view";
@@ -64,12 +64,12 @@ public class studentController {
     private Student editedStudent;
 
 
-    // edit student
+    // edit student -> sends user to editing form
     @PostMapping("students/edit")
     public String editStudent(@RequestParam Map<String, String> id, HttpServletResponse response, Model model) {
-        System.out.println("edit user: " + id.get("studentId"));
         Student student = studentRepo.getReferenceById(Integer.parseInt(id.get("studentId")));
 
+        // return updated list of students to model
         model.addAttribute("edit", student);
         editedStudent = student;
         return "students/editStudent";
@@ -86,6 +86,7 @@ public class studentController {
         editedStudent.setFavFood(editStudent.get("foodTextBox"));
         studentRepo.save(editedStudent);
 
+        // return updated list of students to model
         List<Student> students = studentRepo.findAll();
         model.addAttribute("students", students);
         return "redirect:/students/view";

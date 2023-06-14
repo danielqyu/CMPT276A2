@@ -8,11 +8,13 @@
     <title>Document</title>
 </head>
 <body>
+    <!--EDIT FORM, same as form to add student with mild changes-->
     <div class="col-md-4 m-sm-4" id="formInputsCont" style="width: 300px; padding: 25px;background-color: #D3D3D3; border-radius: 10px;" >
         <form action="/students/editStudent" method="post" class="errorCheck" novalidate>
                 <h2 class="row justify-content-center">Edit Student</h2>
                 <div class="container">
                     <label for="nameTextBox">Name</label>
+                    <!--Each form ports over the inital value of student through th:value-->
                     <input class="form-control" type="text" id="nameTextBox" name="nameTextBox" required placeholder="Name" th:value="${edit.name}">
                     <div class="invalid-feedback">Please enter a name</div>    
                 </div>
@@ -41,6 +43,7 @@
                     <input class="form-control" type="text" id="foodTextBox" name="foodTextBox" required placeholder="Favourite Food" th:value="${edit.favFood}">
                     <div class="invalid-feedback"> Please enter a food </div>
                 </div>
+                <!--Buttons to clear or save changes-->
                 <div class="container-fluid" style="margin-top: 15px;">
                     <div class="row justify-content-center">
                         <div class="col-6 d-flex justify-content-end">
@@ -54,14 +57,13 @@
             </div>
         </form>
     </div>
+    <!--Applies bootstrap validation styles and prevents submission if there are errors-->
     <script>
         (() => {
     'use strict'
-
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    // gets all input boxes that need to be error checked
     const forms = document.querySelectorAll('.errorCheck')
 
-    // Loop over them and prevent submission
     Array.from(forms).forEach(form => {
         form.addEventListener('submit', event => {
         if (!form.checkValidity()) {
@@ -73,6 +75,6 @@
         }, false)
     })
     })()
-    </script>
+    </script>>
 </body>
 </html>

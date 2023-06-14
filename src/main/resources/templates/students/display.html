@@ -32,8 +32,10 @@
                 </div>
 
             </div>
+            <!--Takes data from database and displays them-->
             <div class="row align-items-center m-sm-2 p-2" th:each="student : ${students}" style="background-color: #FFFFFF; border-radius: 5px;"> 
                 <div class="col-3 d-flex justify-content-center">
+                    <!--BOX represnts weight, height, and hair colour (if applicable, default is black)-->
                     <div th:style="'width: ' + ${student.weight} + 'px; height: ' + ${student.height} + 'px; background-color: #FFFFFF; border: 1px solid; border-color: ' + ${student.hair} + ''"></div>
                 </div>
                 <div class="col-3">
@@ -45,6 +47,8 @@
                 <div class="col-2">
                     <span th:text="${student.favFood}"></span> 
                 </div>
+                <!--Buttons to edit or delete student-->
+                <!--studentID = uid, used to understand which student is being edited or deleted-->
                 <div class="col-1">
                     <form action="/students/edit" method="post">
                         <input type="hidden" th:value="${student.uid}" name="studentId">
@@ -106,14 +110,14 @@
                 </div>
         </form>
     </div>
+
+    <!--Applies bootstrap validation styles and prevents submission if there are errors-->
     <script>
         (() => {
     'use strict'
-
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    // gets all input boxes that need to be error checked
     const forms = document.querySelectorAll('.errorCheck')
 
-    // Loop over them and prevent submission
     Array.from(forms).forEach(form => {
         form.addEventListener('submit', event => {
         if (!form.checkValidity()) {
